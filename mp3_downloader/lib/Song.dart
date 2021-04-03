@@ -1,7 +1,7 @@
 
 class Song {
   final String title;
-  final String id;
+  final int id;
   final String duration;
   final int bpm;
   Song(this.title, this.id, this.duration, this.bpm);

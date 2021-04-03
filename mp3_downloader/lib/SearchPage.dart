@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mp3_downloader/SongPage.dart';
-
 import 'Song.dart';
 
 class SearchPage extends StatefulWidget {
@@ -69,7 +68,7 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: query.isEmpty ? Center(
         child: Text(
-          'Start to search for songs!',
+          'Start looking for a song!',
         ),
       ) : FutureBuilder<List<Song>>(
           future: fetchSongs(query),
