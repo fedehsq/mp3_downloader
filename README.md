@@ -1,7 +1,9 @@
 # Mp3 Dowloader #
-Download mp3 directly to your Android device (soon also available for iOS and Windows).
-
-Download and install 'app-release.apk' to use the app.
+Download mp3 directly to your Android or Windows device. (soon also available for iOS).
+## Android ##
+Download and install 'app-release.apk'  from 'Android' directory.
+## Windows ##
+Download the 'mp3_downloader_windows' folder inside 'Windows' and run 'mp3_downloader.exe'.
 
 ![drawing](https://github.com/fedehsq/mp3_downloader/blob/master/s1.png)
 ![drawing](https://github.com/fedehsq/mp3_downloader/blob/master/s3.png)
