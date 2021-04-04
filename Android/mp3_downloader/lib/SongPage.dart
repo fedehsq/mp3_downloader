@@ -4,13 +4,17 @@ import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Song.dart';
 
-
 Future<ExtendedSong> fetchSong(Song song) async {
-  final response = await get(
+  var response = await get(
       Uri.https("hub.ilill.li", "/", {"id" : '${song.id}'}));
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
+    // page must be load, await
+    var json = jsonDecode(response.body);
+    while (json['status'] != 'finished' && json['status'] != 'downloading') {
+      response = await get(
+          Uri.https("hub.ilill.li", "/", {"id" : '${song.id}'}));
+      json = jsonDecode(response.body);
+    }
     return ExtendedSong.fromJson(song, jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
@@ -49,8 +53,7 @@ class _SongPageState extends State<SongPage> {
                     ListTile(title: Text('Size: ${fullSong.filesize}')),
                     ExpansionTile(title: Text('Lyrics'),
                         children: [
-                          fullSong.lyrics != null ? Text(
-                              fullSong.lyrics + "\n") : Text("")
+                         Text(fullSong.lyrics + "\n")
                         ]),
                   ],
                 ),
@@ -70,13 +73,22 @@ class _SongPageState extends State<SongPage> {
                 )
             )
         ), onPressed: () async {
-        if (await canLaunch(fullSong.urlDownload)) {
-          await launch(fullSong.urlDownload);
+        if (fullSong.urlDownload == null || fullSong.urlDownload.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text('Net error'),
+            duration: const Duration(seconds: 1),
+            action: SnackBarAction(
+              label: 'RELOAD',
+              onPressed: () {
+                setState(() {
+                });
+              },
+            ),
+          ));
         } else {
-          throw "Could not launch url";
+          launch(fullSong.urlDownload);
         }
       },
-
       ),
     );
   }

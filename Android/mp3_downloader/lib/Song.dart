@@ -31,9 +31,9 @@ class ExtendedSong extends Song {
       s,
       json['artist'],
       json['filename'],
-      json['filesize'],
+      json['filesize'] ?? 'Unknown',
       json['force'],
-      json['lyrics']
+      json['lyrics'] ?? 'Not available'
     );
   }
 
