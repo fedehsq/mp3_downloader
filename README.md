@@ -1,5 +1,5 @@
 # Mp3 Dowloader #
-Download mp3 directly to your Android or Windows device. (soon also available for iOS).
+Download mp3 directly to your Android or Windows device.
 
 ## Android ##
 Download and install 'app-release.apk'  from 'Android' directory.
