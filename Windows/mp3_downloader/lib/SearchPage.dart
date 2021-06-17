@@ -17,20 +17,19 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<List<Song>> fetchSongs(String item) async {
     final response = await get(
-        Uri.https("expl.lillill.li", "/2/unknown", {"q" : item}));
+        Uri.https("s2.lillill.li", "/unknown", {"q" : item}));
+    List<Song> songs = [];
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      List<Song> songs = [];
       for (var s in jsonDecode(response.body)) {
         songs.add(Song.fromJson(s));
       }
-      return songs;
+      // Fake song to fetch the error
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load');
+      songs.add(new Song("null", -1, "null", -1));
     }
+    return songs;
   }
 
   @override
@@ -64,6 +63,12 @@ class _SearchPageState extends State<SearchPage> {
                       future: fetchSongs(query),
                       builder: (context, AsyncSnapshot<List<Song>> snapshot) {
                         if (snapshot.hasData) {
+                          if (snapshot.data.isEmpty) {
+                            return Center(child: Text("Song not found."));
+                          }
+                          if (snapshot.data[0].title == "null") {
+                            return Center(child: Text("The illegal site has been closed. Wait for an app update."));
+                          }
                           return ListView.builder(
                               shrinkWrap: true,
                               itemCount: snapshot.data.length,
